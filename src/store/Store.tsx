@@ -1,31 +1,69 @@
 import {action, configure, observable} from 'mobx';
 
+import {FetchingStatus, RepoDetailsType, RepoType} from './types';
+
 configure({enforceActions: 'always'});
 
-export interface RepoType {
-  name: string;
-}
-
 export interface StoreType {
+  details: RepoDetailsType;
+  lastDetailsId: string | undefined;
+  favorites: Array<RepoType>;
   repos: Array<RepoType>;
-  addRepo: Function;
-  clearRepos: Function;
-  getReposLength: number;
+  statusDetails: FetchingStatus;
+  statusFavorites: FetchingStatus;
+  statusRepos: FetchingStatus;
+  fetchDetails: Function;
+  fetchFavorites: Function;
+  fetchRepos: Function;
+  setDetails: Function;
+  setFavorites: Function;
+  setRepos: Function;
 }
 
 const Store: StoreType = observable({
+  details: {} as RepoDetailsType,
+  lastDetailsId: undefined,
+  favorites: [],
   repos: [],
-  addRepo: action('Add repo', (repo: RepoType) => {
-    if (repo) {
-      Store.repos.push(repo);
+  statusDetails: FetchingStatus.LOADING,
+  statusFavorites: FetchingStatus.LOADING,
+  statusRepos: FetchingStatus.LOADING,
+  fetchDetails: action('Fetch details', (id: string) => {
+    if (id !== Store.details.id) {
+      Store.statusDetails = FetchingStatus.LOADING;
+      setTimeout(() => {
+        Store.setDetails({id, name: 'Details foo bar'});
+      }, 1000);
     }
   }),
-  clearRepos: action('Clear repos', () => {
-    Store.repos = [];
+  fetchFavorites: action('Fetch favorites', () => {
+    setTimeout(() => {
+      Store.setFavorites([
+        {id: 'FF', name: 'Favorite foo'},
+        {id: 'FB', name: 'Favorite bar'},
+      ]);
+    }, 1000);
   }),
-  get getReposLength() {
-    return this.repos.length;
-  },
+  fetchRepos: action('Fetch repos', () => {
+    setTimeout(() => {
+      Store.setRepos([
+        {id: 'RF', name: 'Repo foo'},
+        {id: 'RB', name: 'Repo bar'},
+      ]);
+    }, 1000);
+  }),
+  setDetails: action('Set details', (details: RepoDetailsType) => {
+    Store.details = details;
+    Store.statusDetails = FetchingStatus.DONE;
+  }),
+  setFavorites: action('Set favorites', (favorites: Array<RepoType>) => {
+    Store.favorites = favorites;
+    Store.statusFavorites = FetchingStatus.DONE;
+  }),
+  setRepos: action('Set repos', (repos: Array<RepoType>) => {
+    Store.repos = repos;
+    Store.statusRepos = FetchingStatus.DONE;
+  }),
 });
 
 export default Store;
