@@ -1,8 +1,11 @@
-import React from 'react';
-import {Button, Text} from 'react-native';
+import React, {EffectCallback, useEffect} from 'react';
+import {Button} from 'react-native';
+import {observer} from 'mobx-react-lite';
 import {StackNavigationProp} from '@react-navigation/stack';
 
 import Container from '../components/Container';
+import {FetchingStatus} from '../store/types';
+import Loading from '../components/Loading';
 import {useStore} from '../store/StoreContext';
 
 export interface ReposProps {
@@ -10,25 +13,22 @@ export interface ReposProps {
 }
 
 const Repos: React.FC<ReposProps> = ({navigation}) => {
-  const store = useStore();
-  store.clearRepos();
-  store.addRepo({name: 'foo'});
-  store.addRepo({name: 'bar'});
+  const {repos, statusRepos, fetchRepos} = useStore();
+  useEffect(fetchRepos as EffectCallback, []);
   return (
     <Container>
-      <Text>Repos screen!</Text>
-      {store.repos.map((repo) => (
-        <Text key={repo.name}>{repo.name}</Text>
+      {statusRepos === FetchingStatus.LOADING && <Loading />}
+      {repos.map((repo) => (
+        <Button
+          key={repo.id}
+          title={repo.name}
+          onPress={() => {
+            navigation.navigate('GitHub Repo Details', {id: repo.id});
+          }}
+        />
       ))}
-      <Text>Repos length: {store.repos.length}</Text>
-      <Button
-        title="Details"
-        onPress={() => {
-          navigation.navigate('GitHub Repo Details');
-        }}
-      />
     </Container>
   );
 };
 
-export default Repos;
+export default observer(Repos);
