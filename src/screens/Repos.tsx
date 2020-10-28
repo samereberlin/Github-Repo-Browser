@@ -1,5 +1,5 @@
 import React, {EffectCallback, useEffect} from 'react';
-import {Button} from 'react-native';
+import {Button, StyleSheet, Text, View, ViewStyle} from 'react-native';
 import {observer} from 'mobx-react-lite';
 import {StackNavigationProp} from '@react-navigation/stack';
 
@@ -8,27 +8,67 @@ import {FetchingStatus} from '../store/types';
 import Loading from '../components/Loading';
 import {useStore} from '../store/StoreContext';
 
+const styles = StyleSheet.create({
+  pagination: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  } as ViewStyle,
+});
+
 export interface ReposProps {
   navigation: StackNavigationProp<any>;
 }
 
 const Repos: React.FC<ReposProps> = ({navigation}) => {
-  const {repos, statusRepos, fetchRepos} = useStore();
+  const {
+    repos,
+    reposPage,
+    reposLastPage,
+    reposErrMsg,
+    statusRepos,
+    fetchRepos,
+  } = useStore();
   useEffect(fetchRepos as EffectCallback, []);
-  return (
-    <Container>
-      {statusRepos === FetchingStatus.LOADING && <Loading />}
-      {repos.map((repo) => (
-        <Button
-          key={repo.id}
-          title={repo.name}
-          onPress={() => {
-            navigation.navigate('GitHub Repo Details', {id: repo.id});
-          }}
-        />
-      ))}
-    </Container>
-  );
+
+  let content;
+  switch (statusRepos) {
+    case FetchingStatus.LOADING:
+      content = <Loading />;
+      break;
+    case FetchingStatus.ERROR:
+      content = <Text>Error fetching Repos: {reposErrMsg}</Text>;
+      break;
+    default:
+      content = (
+        <>
+          {repos.map((repo) => (
+            <Button
+              key={repo.id}
+              title={repo.name}
+              onPress={() => {
+                navigation.navigate('GitHub Repo Details', {repo});
+              }}
+            />
+          ))}
+          <View style={styles.pagination}>
+            <Button
+              disabled={reposPage === 1}
+              onPress={() => fetchRepos(reposPage - 1)}
+              title="<<"
+            />
+            <Text>Page {reposPage}</Text>
+            <Button
+              disabled={reposPage === reposLastPage}
+              onPress={() => fetchRepos(reposPage + 1)}
+              title=">>"
+            />
+          </View>
+        </>
+      );
+  }
+
+  return <Container>{content}</Container>;
 };
 
 export default observer(Repos);
