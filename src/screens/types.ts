@@ -1,5 +1,7 @@
+import {RepoType} from '../store/types';
+
 export type RootStackParamList = {
-  Details: {id: string};
+  Details: {repo: RepoType};
   Favorites: undefined;
   Repos: undefined;
 };

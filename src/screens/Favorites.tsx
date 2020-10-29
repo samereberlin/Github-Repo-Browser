@@ -1,5 +1,5 @@
 import React, {EffectCallback, useEffect} from 'react';
-import {Button} from 'react-native';
+import {Button, Text} from 'react-native';
 import {observer} from 'mobx-react-lite';
 import {StackNavigationProp} from '@react-navigation/stack';
 
@@ -13,22 +13,39 @@ export interface FavoritesProps {
 }
 
 const Favorites: React.FC<FavoritesProps> = ({navigation}) => {
-  const {favorites, statusFavorites, fetchFavorites} = useStore();
+  const {
+    favorites,
+    favoritesErrMsg,
+    statusFavorites,
+    fetchFavorites,
+  } = useStore();
   useEffect(fetchFavorites as EffectCallback, []);
-  return (
-    <Container>
-      {statusFavorites === FetchingStatus.LOADING && <Loading />}
-      {favorites.map((favorite) => (
-        <Button
-          key={favorite.id}
-          title={favorite.name}
-          onPress={() => {
-            navigation.navigate('GitHub Repo Details', {id: favorite.id});
-          }}
-        />
-      ))}
-    </Container>
-  );
+
+  let content;
+  switch (statusFavorites) {
+    case FetchingStatus.LOADING:
+      content = <Loading />;
+      break;
+    case FetchingStatus.ERROR:
+      content = <Text>Error fetching Favorites: {favoritesErrMsg}</Text>;
+      break;
+    default:
+      content = (
+        <>
+          {favorites.map((favorite) => (
+            <Button
+              key={favorite.id}
+              title={favorite.name}
+              onPress={() => {
+                navigation.navigate('GitHub Repo Details', {repo: favorite});
+              }}
+            />
+          ))}
+        </>
+      );
+  }
+
+  return <Container>{content}</Container>;
 };
 
 export default observer(Favorites);
