@@ -31,7 +31,7 @@ const Favorites: React.FC<FavoritesProps> = ({navigation}) => {
       content = <Text>Error fetching Favorites: {favoritesErrMsg}</Text>;
       break;
     default:
-      content = <RepoList list={favorites} navigation={navigation} />;
+      content = <RepoList list={favorites.slice()} navigation={navigation} />;
   }
 
   return <Container>{content}</Container>;

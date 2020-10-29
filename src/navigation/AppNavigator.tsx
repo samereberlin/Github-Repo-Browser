@@ -1,6 +1,7 @@
 import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {NavigationContainer} from '@react-navigation/native';
 
 import Details from '../screens/Details';
@@ -15,9 +16,25 @@ const AppNavigator: React.FC = () => (
     <Stack.Navigator mode="modal">
       <Stack.Screen name="GitHub Repo Browser">
         {(props) => (
-          <Tab.Navigator {...props}>
-            <Tab.Screen name="Repos" component={Repos} />
-            <Tab.Screen name="Favorites" component={Favorites} />
+          <Tab.Navigator {...props} tabBarOptions={{showIcon: true}}>
+            <Tab.Screen
+              name="Repos"
+              component={Repos}
+              options={{
+                tabBarIcon: ({color}) => (
+                  <Icon name="github" color={color} size={24} />
+                ),
+              }}
+            />
+            <Tab.Screen
+              name="Favorites"
+              component={Favorites}
+              options={{
+                tabBarIcon: ({color}) => (
+                  <Icon name="heart" color={color} size={24} />
+                ),
+              }}
+            />
           </Tab.Navigator>
         )}
       </Stack.Screen>

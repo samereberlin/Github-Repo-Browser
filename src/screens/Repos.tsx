@@ -37,13 +37,13 @@ const Repos: React.FC<ReposProps> = ({navigation}) => {
       <Button
         disabled={reposPage === 1}
         onPress={() => fetchRepos(reposPage - 1)}
-        title="<<"
+        title="❮❮"
       />
       <Text>Page {reposPage}</Text>
       <Button
         disabled={reposPage === reposLastPage}
         onPress={() => fetchRepos(reposPage + 1)}
-        title=">>"
+        title="❯❯"
       />
     </View>
   );
@@ -58,7 +58,11 @@ const Repos: React.FC<ReposProps> = ({navigation}) => {
       break;
     default:
       content = (
-        <RepoList list={repos} navigation={navigation} footer={footer} />
+        <RepoList
+          list={repos.slice()}
+          navigation={navigation}
+          footer={footer}
+        />
       );
   }
 
