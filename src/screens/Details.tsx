@@ -19,7 +19,7 @@ const Details: React.FC<DetailsProps> = ({route}) => {
   return (
     <Container>
       <Text>
-        {repo.id} {repo.name}
+        {repo.id} {repo.full_name}
       </Text>
       <Text>Favorite: {isFavorite ? 'Yes' : 'No'}</Text>
       <Button
