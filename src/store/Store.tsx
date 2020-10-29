@@ -2,7 +2,12 @@ import {action, configure, observable} from 'mobx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {FetchingStatus, RepoType} from './types';
-import {GITHUB_REPO_URL, GITHUB_SEARCH_URL, REPO_PER_PAGE} from '../env';
+import {
+  GITHUB_AUTH,
+  GITHUB_REPO_URL,
+  GITHUB_SEARCH_URL,
+  REPO_PER_PAGE,
+} from '../env';
 
 const STORAGE_KEY = 'favoriteNames';
 
@@ -45,6 +50,11 @@ const Store: StoreType = observable({
           per_page: REPO_PER_PAGE.toString(),
           page: Store.reposPage.toString(),
         }),
+      {
+        headers: {
+          Authorization: GITHUB_AUTH,
+        },
+      },
     )
       .then((data) => data.json())
       .then((data) =>
@@ -74,9 +84,11 @@ const Store: StoreType = observable({
         const favoriteNames = JSON.parse(favoriteNamesRaw || '[]');
         const favorites = [];
         for (const favoriteName of favoriteNames) {
-          const favorite = await fetch(
-            `${GITHUB_REPO_URL}${favoriteName}`,
-          ).then((data) => data.json());
+          const favorite = await fetch(`${GITHUB_REPO_URL}${favoriteName}`, {
+            headers: {
+              Authorization: GITHUB_AUTH,
+            },
+          }).then((data) => data.json());
           favorites.push(favorite);
         }
         favorites.sort((a, b) => b.stargazers_count - a.stargazers_count);
