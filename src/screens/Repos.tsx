@@ -1,8 +1,16 @@
 import React, {EffectCallback, useEffect} from 'react';
-import {Button, StyleSheet, Text, View, ViewStyle} from 'react-native';
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+  ViewStyle,
+} from 'react-native';
 import {observer} from 'mobx-react-lite';
 import {StackNavigationProp} from '@react-navigation/stack';
 
+import {defaultTextStyle, paddings} from '../util/theme';
 import Container from '../components/Container';
 import {FetchingStatus} from '../store/types';
 import Loading from '../components/Loading';
@@ -10,11 +18,16 @@ import RepoList from '../components/RepoList';
 import {useStore} from '../store/StoreContext';
 
 const styles = StyleSheet.create({
-  pagination: {
+  errorText: defaultTextStyle as TextStyle,
+  paginationContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   } as ViewStyle,
+  paginationText: {
+    ...defaultTextStyle,
+    padding: paddings.large,
+  } as TextStyle,
 });
 
 export interface ReposProps {
@@ -33,13 +46,13 @@ const Repos: React.FC<ReposProps> = ({navigation}) => {
   useEffect(fetchRepos as EffectCallback, []);
 
   const footer = (
-    <View style={styles.pagination}>
+    <View style={styles.paginationContainer}>
       <Button
         disabled={reposPage === 1}
         onPress={() => fetchRepos(reposPage - 1)}
         title="❮❮"
       />
-      <Text>Page {reposPage}</Text>
+      <Text style={styles.paginationText}>Page {reposPage}</Text>
       <Button
         disabled={reposPage === reposLastPage}
         onPress={() => fetchRepos(reposPage + 1)}
@@ -54,7 +67,11 @@ const Repos: React.FC<ReposProps> = ({navigation}) => {
       content = <Loading />;
       break;
     case FetchingStatus.ERROR:
-      content = <Text>Error fetching Repos: {reposErrMsg}</Text>;
+      content = (
+        <Text style={styles.errorText}>
+          Error fetching Repos: {reposErrMsg}
+        </Text>
+      );
       break;
     default:
       content = (
