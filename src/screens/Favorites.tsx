@@ -1,13 +1,18 @@
 import React, {EffectCallback, useEffect} from 'react';
-import {Text} from 'react-native';
 import {observer} from 'mobx-react-lite';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {StyleSheet, Text, TextStyle} from 'react-native';
 
 import Container from '../components/Container';
+import {defaultTextStyle} from '../util/theme';
 import {FetchingStatus} from '../store/types';
 import Loading from '../components/Loading';
 import RepoList from '../components/RepoList';
 import {useStore} from '../store/StoreContext';
+
+const styles = StyleSheet.create({
+  errorText: defaultTextStyle as TextStyle,
+});
 
 export interface FavoritesProps {
   navigation: StackNavigationProp<any>;
@@ -28,10 +33,14 @@ const Favorites: React.FC<FavoritesProps> = ({navigation}) => {
       content = <Loading />;
       break;
     case FetchingStatus.ERROR:
-      content = <Text>Error fetching Favorites: {favoritesErrMsg}</Text>;
+      content = (
+        <Text style={styles.errorText}>
+          Error fetching Favorites: {favoritesErrMsg}
+        </Text>
+      );
       break;
     default:
-      content = <RepoList list={favorites} navigation={navigation} />;
+      content = <RepoList list={favorites.slice()} navigation={navigation} />;
   }
 
   return <Container>{content}</Container>;
