@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     paddingRight: paddings.large,
   } as TextStyle,
   headerContainer: {
-    alignItems: 'stretch',
+    alignItems: 'flex-end',
     flexDirection: 'row',
     paddingLeft: paddings.large,
     paddingRight: paddings.large,
@@ -37,14 +37,12 @@ const styles = StyleSheet.create({
   headerText: {
     ...defaultTextStyle,
     color: colors.blue,
+    flex: 1,
+    flexWrap: 'wrap',
     fontSize: 24,
     fontWeight: '600',
     paddingBottom: 0,
   } as TextStyle,
-  headerTextContainer: {
-    flexGrow: 1,
-    justifyContent: 'flex-end',
-  },
   iconsContainer: {
     alignItems: 'center',
     flexDirection: 'row',
@@ -125,9 +123,7 @@ const Details: React.FC<DetailsProps> = ({route}) => {
 
       <View style={styles.headerContainer}>
         <Image style={styles.image} source={{uri: repo.owner.avatar_url}} />
-        <View style={styles.headerTextContainer}>
-          <Text style={styles.headerText}>{repo.full_name}</Text>
-        </View>
+        <Text style={styles.headerText}>{repo.full_name}</Text>
       </View>
       <Text style={styles.descriptionText}>{repo.description}</Text>
 
