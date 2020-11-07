@@ -1,10 +1,10 @@
-# GithubRepoBrowser
-This is a simple app to browser GitHub most starred repos.
+# RepoBrowser
+This is a simple app to browser GitHub most starred repositories.
 
 It is a standard react-native project (created with `npx react-native init`), so the instructions are basically:
 ```
-https://github.com/samereberlin/GithubRepoBrowser.git
-cd GithubRepoBrowser
+git clone https://github.com/samereberlin/RepoBrowser.git
+cd RepoBrowser
 npm i
 cd ios
 pod install
