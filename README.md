@@ -4,12 +4,16 @@ GithubRepoBrowser is a simple React Native (iOS/Android) application to browser 
 
 It was implemented for didactic reasons, therefore it is not yet ready for production (see [Next steps](#next-steps) section below).
 
+The following video presents the basic usage:
+
+[BasicUsage.mp4](BasicUsage.mp4)
+
 ## Instructions to run
 
 It is a standard react-native project (created with `npx react-native init`), so the instructions are basically:
 ```
-git clone https://github.com/samereberlin/RepoBrowser.git
-cd RepoBrowser
+git clone https://github.com/samereberlin/GithubRepoBrowser.git
+cd GithubRepoBrowser
 npm i
 cd ios
 pod install
