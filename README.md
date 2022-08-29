@@ -1,6 +1,6 @@
-# GithubRepoBrowser
+# Github-Repo-Browser
 
-GithubRepoBrowser is a simple React Native (iOS/Android) application to browser GitHub most starred repositories.
+Github-Repo-Browser is a simple React Native (iOS/Android) application to browser GitHub most starred repositories.
 
 It was implemented for didactic reasons, therefore it is not yet ready for production (see [Next steps](#next-steps) section below).
 
@@ -11,9 +11,10 @@ The following video presents the basic usage:
 ## Instructions to run
 
 It is a standard react-native project (created with `npx react-native init`), so the instructions are basically:
+
 ```
-git clone https://github.com/samereberlin/GithubRepoBrowser.git
-cd GithubRepoBrowser
+git clone https://github.com/samereberlin/Github-Repo-Browser.git
+cd Github-Repo-Browser
 npm i
 cd ios
 pod install
@@ -24,34 +25,34 @@ npm run android
 ```
 
 ```
-               ######                ######               
-             ###     ####        ####     ###             
-            ##          ###    ###          ##            
-            ##             ####             ##            
-            ##             ####             ##            
-            ##           ##    ##           ##            
-            ##         ###      ###         ##            
-             ##  ########################  ##             
-          ######    ###            ###    ######          
-      ###     ##    ##              ##    ##     ###      
-   ###         ## ###      ####      ### ##         ###   
-  ##           ####      ########      ####           ##  
- ##             ###     ##########     ###             ## 
-  ##           ####      ########      ####           ##  
-   ###         ## ###      ####      ### ##         ###   
-      ###     ##    ##              ##    ##     ###      
-          ######    ###            ###    ######          
-             ##  ########################  ##             
-            ##         ###      ###         ##            
-            ##           ##    ##           ##            
-            ##             ####             ##            
-            ##             ####             ##            
-            ##          ###    ###          ##            
-             ###     ####        ####     ###             
-               ######                ######               
-                                                          
+               ######                ######
+             ###     ####        ####     ###
+            ##          ###    ###          ##
+            ##             ####             ##
+            ##             ####             ##
+            ##           ##    ##           ##
+            ##         ###      ###         ##
+             ##  ########################  ##
+          ######    ###            ###    ######
+      ###     ##    ##              ##    ##     ###
+   ###         ## ###      ####      ### ##         ###
+  ##           ####      ########      ####           ##
+ ##             ###     ##########     ###             ##
+  ##           ####      ########      ####           ##
+   ###         ## ###      ####      ### ##         ###
+      ###     ##    ##              ##    ##     ###
+          ######    ###            ###    ######
+             ##  ########################  ##
+            ##         ###      ###         ##
+            ##           ##    ##           ##
+            ##             ####             ##
+            ##             ####             ##
+            ##          ###    ###          ##
+             ###     ####        ####     ###
+               ######                ######
 
-                  Welcome to React Native!                
+
+                  Welcome to React Native!
                  Learn once, write anywhere
 ```
 
